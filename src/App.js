@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ImageUploader from './components/ImageUploader';
+import ImageDisplay from './components/ImageDisplay';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const ParentComponent = () => {
+    const [images, setImages] = useState(JSON.parse(sessionStorage.getItem('images')) || []);
 
-export default App;
+    useEffect(() => {
+        sessionStorage.setItem('images', JSON.stringify(images));
+    }, [images]);
+
+    return (
+        <div>
+            <ImageUploader setImages={setImages} />
+            <ImageDisplay images={images} />
+        </div>
+    );
+};
+
+export default ParentComponent;
+
