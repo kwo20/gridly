@@ -1,13 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import ImageUploader from './components/ImageUploader';
-function App() {
-  return (
-    <div className="App">
-      
-      <ImageUploader />
-    </div>
-  );
-}
+import ImageDisplay from './components/ImageDisplay';
 
-export default App;
+const ParentComponent = () => {
+    const [images, setImages] = useState(JSON.parse(sessionStorage.getItem('images')) || []);
+
+    useEffect(() => {
+        sessionStorage.setItem('images', JSON.stringify(images));
+    }, [images]);
+
+    return (
+        <div>
+            <ImageUploader setImages={setImages} />
+            <ImageDisplay images={images} />
+        </div>
+    );
+};
+
+export default ParentComponent;
+
