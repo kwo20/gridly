@@ -1,4 +1,5 @@
 import React from 'react';
+import db from '../db';
 
 const ImageUploader = ({ setImages }) => {
     const inputRef = React.createRef();
@@ -16,9 +17,10 @@ const ImageUploader = ({ setImages }) => {
         files.slice(0, filesCount).forEach(file => {
             const reader = new FileReader();
 
-            reader.onloadend = () => {
+            reader.onloadend = async () => {
                 const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
-                setImages(prevImages => [...prevImages, base64String]);
+                const id = await db.images.put({ base64: base64String }); // Store in DB
+                setImages(prevImages => [...prevImages, { id, base64: base64String }]);
             };
 
             if (file) {
@@ -43,5 +45,6 @@ const ImageUploader = ({ setImages }) => {
 };
 
 export default ImageUploader;
+
 
 
