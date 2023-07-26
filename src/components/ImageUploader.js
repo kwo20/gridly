@@ -1,7 +1,13 @@
 import React from 'react';
-//FOR EVEN IMGS MUST BE 480x360
-//CURRENT MAX OF 12 IMGS
+
 const ImageUploader = ({ setImages }) => {
+    const inputRef = React.createRef();
+
+    const handleClick = () => {
+        if (inputRef.current) {
+            inputRef.current.click();
+        }
+    };
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
@@ -22,11 +28,20 @@ const ImageUploader = ({ setImages }) => {
     };
 
     return (
-        <div>
-            <input type='file' accept='image/*' onChange={handleImageChange} multiple />
+        <div style={{marginBottom: '50px'}}>
+            <button onClick={handleClick}>Upload Image(s)</button>
+            <input 
+                ref={inputRef}
+                type='file' 
+                accept='image/*' 
+                onChange={handleImageChange} 
+                multiple 
+                style={{display: 'none'}}
+            />
         </div>
     );
 };
 
 export default ImageUploader;
+
 
